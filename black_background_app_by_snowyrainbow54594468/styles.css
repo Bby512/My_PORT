@@ -1,0 +1,81 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Social buttons top-right */
+#social-buttons {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.icon:hover {
+  transform: scale(1.05);
+}
+
+/* Video section */
+#videos {
+  flex: 1;
+  max-width: 900px;
+  margin: 100px auto 60px auto;
+  padding: 0 20px;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+video {
+  width: 100%;
+  background: #111;
+  border: none;
+  border-radius: 0;
+}
+
+/* "More coming soon" notice */
+#coming-soon {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.trademark {
+  font-size: 0.7em;
+  vertical-align: super;
+}
+
+/* Footer trademark notice centered */
+footer {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+}
