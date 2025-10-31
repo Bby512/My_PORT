@@ -1,9 +1,5 @@
 /* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   background: #000;
@@ -14,69 +10,79 @@ body {
   flex-direction: column;
 }
 
-/* Social buttons top-right */
+/* Social buttons */
 #social-buttons {
   position: fixed;
   top: 20px;
   right: 20px;
   display: flex;
   gap: 15px;
+  z-index: 1000;
+}
+.icon { width: 40px; height: 40px; transition: transform .3s, filter .3s; }
+.icon:hover { transform: scale(1.2) rotate(5deg); filter: drop-shadow(0 0 8px #fff); }
+
+/* Navbar */
+#navbar {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+#navbar ul { list-style: none; display: flex; gap: 40px; }
+#navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  position: relative;
+  padding: 5px 0;
+  transition: color .3s;
+}
+#navbar a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 2px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .3s ease;
+}
+#navbar a:hover::after, #navbar a.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+#navbar a:hover { color: #aaa; }
+
+/* Tab content */
+main { flex: 1; max-width: 900px; margin: 120px auto 60px; padding: 0 20px; }
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.icon {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-  transition: transform 0.2s ease;
-  cursor: pointer;
-}
-
-.icon:hover {
-  transform: scale(1.05);
-}
-
-/* Video section */
-#videos {
-  flex: 1;
-  max-width: 900px;
-  margin: 100px auto 60px auto;
-  padding: 0 20px;
-}
-
+/* Video grid */
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
-  transition: outline 0.2s ease;
+}
+video { width: 100%; background: #111; border-radius: 6px; }
+.hover-zoom { transition: transform .4s, box-shadow .4s; }
+.hover-zoom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
 }
 
-video {
-  width: 100%;
-  background: #111;
-  border: none;
-  border-radius: 0;
-}
-
-/* Highlight when dragging */
-.video-grid.dragover {
-  outline: 3px dashed #555;
-  outline-offset: 10px;
-}
-
-/* "More coming soon" notice */
-#coming-soon {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 14px;
-  color: #aaa;
-}
-
-.trademark {
-  font-size: 0.7em;
-  vertical-align: super;
-}
-
-/* Footer trademark notice centered */
+/* Footer */
 footer {
   position: fixed;
   bottom: 10px;
@@ -84,5 +90,5 @@ footer {
   transform: translateX(-50%);
   font-size: 12px;
   color: #777;
-  text-align: center;
 }
+.trademark { font-size: .7em; vertical-align: super; }

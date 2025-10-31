@@ -6,47 +6,50 @@
   <title>Nullcore Studios</title>
 
   <link rel="stylesheet" href="styles.css" />
-  <script type="module" src="main.js"></script>
+  <script defer src="main.js"></script>
 </head>
 <body>
   <!-- Top-right social buttons -->
   <div id="social-buttons">
-    <a id="discord-btn" href="https://discord.gg/72HJTJapG6" target="_blank" rel="noopener" 
-       aria-label="Join Nullcore Studios Discord" title="Join Nullcore Studios Discord">
+    <a href="https://discord.gg/72HJTJapG6" target="_blank" rel="noopener">
       <img class="icon" src="Disord.png" alt="Discord" />
     </a>
-    <a id="youtube-btn" href="https://www.youtube.com/@BeefyRBX" target="_blank" rel="noopener" 
-       aria-label="Visit Nullcore Studios YouTube" title="Visit Nullcore Studios YouTube">
+    <a href="https://www.youtube.com/@BeefyRBX" target="_blank" rel="noopener">
       <img class="icon" src="Youtube.png" alt="YouTube" />
     </a>
   </div>
 
-  <!-- Video showcase -->
-  <main id="videos">
-    <div class="video-grid" id="video-grid">
-      <!-- Existing videos -->
-      <video controls>
-        <source src="1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <video controls>
-        <source src="2.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <!-- Newly added video -->
-      <video controls>
-        <source src="3.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
+  <!-- Navigation Tabs -->
+  <nav id="navbar">
+    <ul>
+      <li><a href="#" data-tab="home" class="active">Home</a></li>
+      <li><a href="#" data-tab="portfolio">Portfolio</a></li>
+    </ul>
+  </nav>
+
+  <!-- Tab Content -->
+  <main>
+    <!-- Home -->
+    <section id="home" class="tab-content active">
+      <h2>About Me</h2>
+      <p>
+        Hi, I’m <strong>Blue</strong>, the owner of <strong>Nullcore Studios™</strong> and a scripter who is hire‑able!  
+        I’ve been scripting for a while now and have worked on the front‑page game <strong>FNAF TD</strong>.  
+        I’m currently accepting <strong>Dollars</strong>, <strong>Game Revenue</strong>, and <strong>Robux</strong>.
+      </p>
+    </section>
+
+    <!-- Portfolio (Showcase videos) -->
+    <section id="portfolio" class="tab-content">
+      <div class="video-grid">
+        <video controls class="hover-zoom"><source src="1.mp4" type="video/mp4"></video>
+        <video controls class="hover-zoom"><source src="2.mp4" type="video/mp4"></video>
+        <video controls class="hover-zoom"><source src="3.mp4" type="video/mp4"></video>
+      </div>
+    </section>
   </main>
 
-  <!-- "More coming soon" notice -->
-  <div id="coming-soon">
-    <p>More coming soon<span class="trademark">™</span></p>
-  </div>
-
-  <!-- Trademark footer -->
+  <!-- Footer -->
   <footer>
     <p>Nullcore Studios<span class="trademark">™</span> — All rights reserved.</p>
   </footer>
