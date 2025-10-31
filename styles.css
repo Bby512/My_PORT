@@ -47,6 +47,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
+  transition: outline 0.2s ease;
 }
 
 video {
@@ -54,6 +55,12 @@ video {
   background: #111;
   border: none;
   border-radius: 0;
+}
+
+/* Highlight when dragging */
+.video-grid.dragover {
+  outline: 3px dashed #555;
+  outline-offset: 10px;
 }
 
 /* "More coming soon" notice */
