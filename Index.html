@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet blue - Scripting God</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Dark grid background */
+            background-color: #121212;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #E5E7EB;
+            overflow-x: hidden;
+        }
+
+        /* Blocky "Roblox" font */
+        .font-roblox {
+            font-family: 'Silkscreen', cursive;
+        }
+
+        /* Header Flicker */
+        .header-flicker {
+            animation: flicker 3s linear infinite;
+        }
+        @keyframes flicker {
+            0%, 19.9%, 20.1%, 40.2%, 60.3%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 5px #3b82f6, 0 0 10px #3b82f6;
+            }
+            20%, 40%, 60% {
+                opacity: 0.8;
+                text-shadow: none;
+            }
+        }
+
+
+        /* Draggable Window */
+        #about-window {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background-color: #1f2937; /* Dark gray-blue */
+            border: 2px solid #4b5563;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            z-index: 50;
+        }
+        #about-header {
+            background-color: #374151;
+            padding: 8px 12px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            cursor: move; /* Grab cursor */
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #close-btn {
+            background: #ef4444; /* Red */
+            border: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #close-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Skill Tag Hover */
+        .skill-tag {
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            transition: all 0.2s;
+        }
+        .skill-tag:hover {
+            background-color: #4b5563;
+            border-color: #3b82f6;
+            transform: scale(1.05);
+            color: #3b82f6;
+        }
+
+        /* Video Player */
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #374151;
+            transition: all 0.3s ease;
+        }
+        video:hover {
+            transform: scale(1.03);
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Slider Captcha */
+        #slider-captcha {
+            background-color: #1f2937;
+            border: 2px solid #374151;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 400px;
+            margin: 1.5rem auto 0 auto;
+            text-align: center;
+        }
+        #slider-track {
+            position: relative;
+            background-color: #374151;
+            height: 40px;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: not-allowed;
+        }
+        #slider-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: #3b82f6;
+            opacity: 0.5;
+        }
+        #slider-thumb {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 40px;
+            width: 40px;
+            background-color: #3b82f6;
+            border: 2px solid #93c5fd;
+            border-radius: 6px;
+            cursor: grab;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            user-select: none;
+        }
+        #slider-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            line-height: 40px;
+            color: #d1d5db;
+            user-select: none;
+            pointer-events: none;
+            font-family: 'Silkscreen', cursive;
+        }
+        #captcha-success {
+            display: none;
+            margin-top: 1rem;
+            font-size: 1.25rem;
+            font-family: 'Silkscreen', cursive;
+        }
+        
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <!-- Main Content (Now loads instantly) -->
+    <main id="main-content" class="max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header class="text-center my-16">
+            <h1 class="text-6xl sm:text-8xl font-roblox font-bold text-white drop-shadow-lg header-flicker">
+                PLANET <span class="text-blue-500">BLUE</span>
+            </h1>
+            <!-- Subtitle removed as requested -->
+        </header>
+
+        <!-- About Me Window (Draggable and Static) -->
+        <section class="relative h-96 mb-16">
+            <div id="about-window">
+                <div id="about-header">
+                    <span class="font-roblox text-sm text-gray-200">SYS: /AboutMe.txt</span>
+                    <button id="close-btn" title="Close Window (jk it just hides)"></button>
+                </div>
+                <div class="p-6 text-lg text-gray-300">
+                    <!-- Text is static and uneditable -->
+                    <div id="about-text">
+                        Hi im Planet blue or Max...iumumopacity120 and i've beening coding sense the dinosaurs. me and them used to hang and make games... then humans came and killed us... my DNA has been found in the lab where walt disney is frozen and i was recently reborn... and now im coding and doing commisions.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="mb-16">
+            <h3 class="text-4xl font-roblox text-center mb-8">&lt;TOOLKIT&gt;</h3>
+            <div class="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto">
+                <span class="skill-tag font-roblox text-lg px-5 py-2 rounded-lg cursor-default">Very yes coding wow</span>
+                <span class="skill-tag font-roblox text-lg px-5 py-2 rounded-lg cursor-default">Oops, oops i ment oop</span>
+                <span class="skill-tag font-roblox text-lg px-5 py-2 rounded-lg cursor-default">optimzation? hell no</span>
+            </div>
+        </section>
+
+        <!-- Video Gallery -->
+        <section class="mb-16">
+            <h3 class="text-4xl font-roblox text-center mb-8">//PROOF//</h3>
+            <p class="text-center text-gray-400 mb-6 -mt-6">You want to see it work? Fine. Here.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Referencing new video files -->
+                <video src="PortfolioPiece1.mp4" controls muted playsinline poster="https://placehold.co/600x400/1f2937/3b82f6?text=Portfolio+Piece+1"></video>
+                <video src="PortfolioPiece2.mp4" controls muted playsinline poster="https://placehold.co/600x400/1f2937/3b82f6?text=Portfolio+Piece+2"></video>
+                <!-- Only 2 videos now -->
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="text-center mt-16 mb-8">
+            <h3 class="text-4xl font-roblox text-white mb-4">
+                /CONTACT/
+            </h3>
+            <p class="text-xl text-gray-300 max-w-lg mx-auto">
+                I'm VERY busy sigma so ONLY if your ACTUALLY gonna hire me. Don't send me strange requests; I have enough already, twin.
+            </p>
+            <div id="slider-captcha">
+                <div id="slider-track">
+                    <div id="slider-progress"></div>
+                    <div id="slider-thumb" draggable="false">></div>
+                    <div id="slider-text">SLIDE TO PROVE YOU'RE A SIGMA</div>
+                </div>
+                <div id="captcha-success">
+                    <p class="text-green-400">ACCESS GRANTED.</p>
+                    <p class="text-white mt-2">Discord: 1352686184345768038</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 text-sm text-gray-500 font-roblox">
+        Made with love not canva or a site maker ❤️
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Draggable Window Logic ---
+            const aboutWindow = document.getElementById('about-window');
+            const header = document.getElementById('about-header');
+            const closeBtn = document.getElementById('close-btn');
+            
+            let isDragging = false;
+            let offset = { x: 0, y: 0 };
+
+            header.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offset.x = e.clientX - aboutWindow.getBoundingClientRect().left;
+                offset.y = e.clientY - aboutWindow.getBoundingClientRect().top;
+                aboutWindow.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                // Keep window within viewport bounds
+                let newX = e.clientX - offset.x;
+                let newY = e.clientY - offset.y;
+                const bounds = document.body.getBoundingClientRect();
+                const windowBounds = aboutWindow.getBoundingClientRect();
+
+                if (newX < 0) newX = 0;
+                if (newY < 0) newY = 0;
+                if (newX + windowBounds.width > bounds.width) newX = bounds.width - windowBounds.width;
+                if (newY + windowBounds.height > bounds.height) newY = bounds.height - windowBounds.height;
+
+                aboutWindow.style.left = `${newX}px`;
+                aboutWindow.style.top = `${newY}px`;
+                aboutWindow.style.transform = 'none'; // Remove initial centering
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                aboutWindow.style.cursor = 'default';
+            });
+
+            // "Close" button just hides the window
+            closeBtn.addEventListener('click', () => {
+                aboutWindow.style.display = 'none';
+            });
+
+
+            // --- Slider Captcha Logic ---
+            const sliderThumb = document.getElementById('slider-thumb');
+            const sliderTrack = document.getElementById('slider-track');
+            const sliderProgress = document.getElementById('slider-progress');
+            const sliderText = document.getElementById('slider-text');
+            const captchaSuccess = document.getElementById('captcha-success');
+            let isSliding = false;
+
+            sliderThumb.addEventListener('mousedown', (e) => {
+                isSliding = true;
+                sliderThumb.style.cursor = 'grabbing';
+                sliderThumb.style.transition = 'none';
+                sliderProgress.style.transition = 'none';
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (!isSliding) return;
+                isSliding = false;
+                sliderThumb.style.cursor = 'grab';
+                
+                const thumbRect = sliderThumb.getBoundingClientRect();
+                const trackRect = sliderTrack.getBoundingClientRect();
+                
+                // Check if slider is at the end
+                if (thumbRect.right >= trackRect.right - 10) {
+                    // Success
+                    sliderThumb.style.left = (trackRect.width - thumbRect.width) + 'px';
+                    sliderProgress.style.width = '100%';
+                    sliderThumb.style.background = '#10B981'; // Green
+                    sliderThumb.style.borderColor = '#6EE7B7';
+                    sliderThumb.innerHTML = '✔';
+                    sliderText.innerHTML = 'VERIFIED.';
+                    sliderTrack.style.cursor = 'default';
+                    captchaSuccess.style.display = 'block';
+                    // Disable further sliding
+                    isSliding = false;
+                    sliderThumb.removeEventListener('mousedown', () => {});
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', () => {});
+                } else {
+                    // Reset
+                    sliderThumb.style.transition = 'left 0.3s ease';
+                    sliderProgress.style.transition = 'width 0.3s ease';
+                    sliderThumb.style.left = '0px';
+                    sliderProgress.style.width = '0px';
+                }
+            });
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            function onMouseMove(e) {
+                if (!isSliding) return;
+                
+                const trackRect = sliderTrack.getBoundingClientRect();
+                let newX = e.clientX - trackRect.left - (sliderThumb.offsetWidth / 2);
+
+                // Clamp position
+                if (newX < 0) newX = 0;
+                if (newX > trackRect.width - sliderThumb.offsetWidth) {
+                    newX = trackRect.width - sliderThumb.offsetWidth;
+                }
+                
+                sliderThumb.style.left = newX + 'px';
+                sliderProgress.style.width = newX + (sliderThumb.offsetWidth / 2) + 'px';
+            }
+
+        });
+    </script>
+</body>
+</html>
