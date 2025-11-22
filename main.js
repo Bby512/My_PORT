@@ -20,7 +20,7 @@ links.forEach(link => {
     const activeTab = document.getElementById(tabId);
     activeTab.classList.add('active');
 
-    // trigger animation
+    // animation
     setTimeout(() => {
       activeTab.style.opacity = 1;
       activeTab.style.transform = 'translateY(0) scale(1)';
